@@ -185,3 +185,27 @@ document.addEventListener('keydown', function (j) {
     toggleBounce(ball);
   }
 });
+
+// --- Kode untuk Musik Latar ---
+
+let backgroundMusic = document.getElementById('background-music');
+
+// Fungsi untuk memainkan musik
+function tryPlayMusic() {
+    if (backgroundMusic && backgroundMusic.paused) {
+        // Pemutaran harus dilakukan setelah interaksi pengguna karena pembatasan browser
+        backgroundMusic.play().catch(error => {
+            // Ini akan tertangkap jika browser memblokir autoplay
+            console.log("Autoplay blocked. User interaction required to play music.");
+            // Opsional: Tampilkan pesan kepada pengguna untuk mengklik/interaksi
+        });
+    }
+}
+
+// Tambahkan event listener untuk memicu pemutaran musik setelah interaksi
+// Kita akan menggunakan event 'mouseenter' pada body sebagai salah satu pemicu
+document.body.addEventListener('mouseenter', tryPlayMusic, { once: true });
+// Kita juga bisa memanggilnya di akhir kode utama setelah semuanya diinisialisasi:
+// tryPlayMusic(); // Panggil di sini, tapi mungkin gagal karena autoplay restriction
+
+// --- Akhir Kode Musik Latar ---
