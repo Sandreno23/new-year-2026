@@ -1,13 +1,26 @@
-body{
-	position:relative;
-	z-index:0;
-	margin:0;
-	padding:0 0 1em 0;
-	background-image: url('bg.jpg');
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-attachment: fixed;
-	background-position: center top;
+body {
+    position: relative;
+    z-index: 0;
+    margin: 0;
+    padding: 0;
+    background-image: url('bg.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center center; /* Diubah ke center agar tetap seimbang */
+    min-height: 100vh; /* Memastikan background memenuhi tinggi layar */
+    width: 100%;
+    overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+    body { 
+        /* Mengubah ke scroll seringkali memperbaiki bug 'jumpy' background di browser mobile */
+        background-attachment: scroll; 
+        /* Memastikan gambar tetap menutup seluruh layar meski orientasi portrait */
+        background-size: cover; 
+    }
+    .b-head-decor { display: none; } 
 }
 
 .b-page__content{min-height:200px}
@@ -131,6 +144,10 @@ pointer-events:none
     text-align: center;
 }
 
+.new-year-text  { top: 35vh; font-size: clamp(1.8rem, 8vw, 5rem); }
+.new-year-text2 { top: 48vh; font-size: clamp(1.5rem, 6vw, 4rem); }
+.new-year-text3 { top: 60vh; font-size: clamp(1.8rem, 8vw, 5rem); }
+
 /* Styling untuk Kontainer Kembang Api */
 .fireworks-container {
     position: absolute;
@@ -225,4 +242,56 @@ pointer-events:none
         transform: scale(0);
         opacity: 0;
     }
+}
+
+/* --- Tambahan Animasi Santa --- */
+.santa-wrapper {
+    position: fixed;
+    top: 50%; /* Menyesuaikan posisi teks Anda */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    pointer-events: none;
+}
+
+.santa-orbit {
+position: absolute;
+    /* Lebar orbit menyesuaikan lebar layar */
+    width: clamp(280px, 85vw, 750px); 
+    height: clamp(150px, 45vw, 350px);
+    margin-left: clamp(-375px, -42.5vw, -140px);
+    margin-top: -100px;
+    animation: rotateSanta 10s linear infinite;
+}
+
+.santa-img {
+    width: 120px; /* Ukuran Santa dan Rusa */
+    position: absolute;
+    top: 300px;
+    left: 60%;
+    margin: auto;
+    transform: translateX(-50%);
+}
+
+@keyframes rotateSanta {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.firework {
+    z-index: 6;
+}
+
+/* --- Efek Salju --- */
+#snow-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+/* */
+#sprinkle-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    pointer-events: none;
 }

@@ -186,26 +186,146 @@ document.addEventListener('keydown', function (j) {
   }
 });
 
-// --- Kode untuk Musik Latar ---
-
 let backgroundMusic = document.getElementById('background-music');
 
-// Fungsi untuk memainkan musik
 function tryPlayMusic() {
     if (backgroundMusic && backgroundMusic.paused) {
-        // Pemutaran harus dilakukan setelah interaksi pengguna karena pembatasan browser
         backgroundMusic.play().catch(error => {
-            // Ini akan tertangkap jika browser memblokir autoplay
             console.log("Autoplay blocked. User interaction required to play music.");
-            // Opsional: Tampilkan pesan kepada pengguna untuk mengklik/interaksi
         });
     }
 }
 
-// Tambahkan event listener untuk memicu pemutaran musik setelah interaksi
-// Kita akan menggunakan event 'mouseenter' pada body sebagai salah satu pemicu
 document.body.addEventListener('mouseenter', tryPlayMusic, { once: true });
-// Kita juga bisa memanggilnya di akhir kode utama setelah semuanya diinisialisasi:
-// tryPlayMusic(); // Panggil di sini, tapi mungkin gagal karena autoplay restriction
 
-// --- Akhir Kode Musik Latar ---
+// Tambahkan ini di baris terakhir script.js Anda
+document.addEventListener('click', function() {
+    if (backgroundMusic && backgroundMusic.paused) {
+        backgroundMusic.play();
+    }
+}, { once: true });
+
+// --- Logika Animasi Salju ---
+(function() {
+    const canvas = document.getElementById('snow-canvas');
+    const ctx = canvas.getContext('2d');
+    let width, height, snowflakes;
+
+    function init() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+
+        snowflakes = [];
+        for (let i = 0; i < 50; i++) { // Jumlah butiran salju
+            snowflakes.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                r: Math.random() * 4 + 1, // Ukuran butiran
+                d: Math.random() * 4,     // Kecepatan jatuh
+                v: Math.random() * 0.1    // Gerakan goyang ke samping
+            });
+        }
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, width, height);
+        ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+        ctx.beginPath();
+        for (let i = 0; i < snowflakes.length; i++) {
+            let f = snowflakes[i];
+            ctx.moveTo(f.x, f.y);
+            ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
+        }
+        ctx.fill();
+        update();
+    }
+
+    function update() {
+        for (let i = 0; i < snowflakes.length; i++) {
+            let f = snowflakes[i];
+            f.y += Math.cos(f.d) + 1 + f.r / 2;
+            f.x += Math.sin(f.v) * 2;
+
+            if (f.y > height) {
+                snowflakes[i] = { x: Math.random() * width, y: -10, r: f.r, d: f.d, v: f.v };
+            }
+        }
+    }
+
+    function animate() {
+        draw();
+        requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize', init);
+    init();
+    animate();
+})();
+
+// --- Logika Butiran Emas (Gold Sprinkles) ---
+(function() {
+    const canvas = document.getElementById('sprinkle-canvas');
+    const ctx = canvas.getContext('2d');
+    const santaImg = document.querySelector('.santa-img');
+    let particles = [];
+
+    function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+
+    class Particle {
+        constructor(x, y) {
+            this.x = x;
+            this.y = y;
+            this.size = Math.random() * 4 + 1;
+            this.speedX = (Math.random() - 0.5) * 2;
+            this.speedY = (Math.random() - 0.5) * 2;
+            this.color = `hsla(${Math.random() * 20 + 40}, 100%, 50%, ${Math.random()})`; // Warna emas/kuning
+            this.life = 2; // Alpha / nyawa partikel
+        }
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+            this.life -= 0.02; // Partikel menghilang perlahan
+        }
+        draw() {
+            ctx.fillStyle = this.color;
+            ctx.globalAlpha = this.life;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // Ambil posisi Santa secara real-time
+        if (santaImg) {
+            const rect = santaImg.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            // Tambahkan partikel baru di posisi Santa
+            if (particles.length < 100) {
+                particles.push(new Particle(centerX, centerY));
+            }
+        }
+
+        for (let i = 0; i < particles.length; i++) {
+            particles[i].update();
+            particles[i].draw();
+            if (particles[i].life <= 0) {
+                particles.splice(i, 1);
+                i--;
+            }
+        }
+        requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+    animate();
+})();

@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <head>
-	<meta charset="utf-8" />
-	<title>Новогодняя мотня</title>
-	<link rel="stylesheet" href="style.css">
-	<script src="script.js" defer></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Merry Christmas & New Year</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
+	<canvas id="snow-canvas" style="position: fixed; top: 0; left: 0; pointer-events: none; z-index: 1;"></canvas>
+	<canvas id="snow-canvas" style="position: fixed; top: 0; left: 0; pointer-events: none; z-index: 1;"></canvas>
+	<canvas id="sprinkle-canvas" style="position: fixed; top: 0; left: 0; pointer-events: none; z-index: 99;"></canvas>
 
 <div class="b-page_newyear">
 	<div class="b-page__content">
@@ -20,8 +24,13 @@
 		<h1 class="new-year-text">Merry Christmas</h1>
 		<h1 class="new-year-text2">&</h1>
 		<h1 class="new-year-text3">New Year 2026</h1>
+		<div class="santa-wrapper">
+    		<div class="santa-orbit">
+        		<img src="balls/png-clipart-rudolph-santa-claus-reindeer-christmas-santa-sleigh-holidays-christmas-decoration-removebg-preview.png" alt="Santa" class="santa-img">
+    		</div>
+		</div>
 		<audio id="background-music" loop>
-            <source src="audio/Audio WhatsApp 2025-08-01 pukul 10.51.51_c11afef0.mp3" type="audio/mpeg">
+            <source src="audio/Audio WhatsApp 2025-12-18 pukul 12.05.03_52af4006.mp3" type="audio/mpeg">
             Your browser does not support the audio element.
         </audio>
         <i class="b-head-decor">
