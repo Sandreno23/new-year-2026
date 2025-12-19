@@ -3,7 +3,7 @@ body {
     z-index: 0;
     margin: 0;
     padding: 0;
-    background-image: url('bg.jpg');
+    background-image: url('balls/Sandreno-bg.jpg.webp');
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
@@ -15,9 +15,7 @@ body {
 
 @media (max-width: 768px) {
     body { 
-        /* Mengubah ke scroll seringkali memperbaiki bug 'jumpy' background di browser mobile */
         background-attachment: scroll; 
-        /* Memastikan gambar tetap menutup seluruh layar meski orientasi portrait */
         background-size: cover; 
     }
     .b-head-decor { display: none; } 
